@@ -62,6 +62,14 @@ class LearningAgent(Agent):
         maxAction = qValues.argMax()
         return maxAction
 
+    def flipCoin(self, p):
+        """ 
+          Returns boolean of binomial distribution with success probability, p. 
+          To be used for determining trade off between exploration and exploitation in Q learning.
+        """
+        r = random.random()
+        return r < p
+
     def update(self, t):
         # Gather inputs
         self.next_waypoint = self.planner.next_waypoint()  # from route planner, also displayed by simulator
