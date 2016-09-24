@@ -41,6 +41,15 @@ class LearningAgent(Agent):
         """ Returns Q value for particular (state, action) pair from QValueDict."""
         return self.Q[state,action]
 
+    def computeValueFromQValues(self, state):
+        """ Returns max Q value for a particular state, where max is over all possible actions."""
+        qValues = QValueDict()
+        actions =  [None,'forward','left','right']
+        for action in actions:
+            qValues[action] = self.getQValue(state,action)
+        maxAction = qValues.argMax()
+        return qValues[maxAction]
+
     def update(self, t):
         # Gather inputs
         self.next_waypoint = self.planner.next_waypoint()  # from route planner, also displayed by simulator
