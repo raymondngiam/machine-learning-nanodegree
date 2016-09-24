@@ -53,6 +53,9 @@ class LearningAgent(Agent):
         reward = self.env.act(self, action)
 
         # TODO: Learn policy based on state, action, reward
+        # Gather next waypoint and environment inputs after action is taken
+        nextState_next_waypoint = self.planner.next_waypoint()
+        nextState_inputs = self.env.sense(self)
 
         print "LearningAgent.update(): deadline = {}, inputs = {}, action = {}, reward = {}".format(deadline, inputs, action, reward)  # [debug]
 
