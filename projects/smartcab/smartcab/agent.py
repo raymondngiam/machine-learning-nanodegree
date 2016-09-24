@@ -56,6 +56,9 @@ class LearningAgent(Agent):
         # Gather next waypoint and environment inputs after action is taken
         nextState_next_waypoint = self.planner.next_waypoint()
         nextState_inputs = self.env.sense(self)
+        # Store as next state
+        nextState = (nextState_inputs['light'], nextState_inputs['oncoming'],nextState_inputs['left'],nextState_next_waypoint)
+
 
         print "LearningAgent.update(): deadline = {}, inputs = {}, action = {}, reward = {}".format(deadline, inputs, action, reward)  # [debug]
 
