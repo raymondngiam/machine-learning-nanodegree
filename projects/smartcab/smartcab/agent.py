@@ -3,6 +3,26 @@ from environment import Agent, Environment
 from planner import RoutePlanner
 from simulator import Simulator
 
+class QValueDict(dict):
+    """Modified dictionary class to store Q values ."""
+    def __getitem__(self, idx):
+        """ 
+          Handle exception of dictionary invalid key error,
+          if invalid key is used, return 0. 		  
+        """
+        self.setdefault(idx, 0)
+        return dict.__getitem__(self, idx)
+
+    def argMax(self):
+        """ 
+          Return the key of the highest value	  
+        """
+        if len(self.keys()) == 0: return None
+        all = self.items()
+        values = [x[1] for x in all]
+        maxIndex = values.index(max(values))
+        return all[maxIndex][0]
+
 class LearningAgent(Agent):
     """An agent that learns to drive in the smartcab world."""
 
