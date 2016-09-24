@@ -115,6 +115,11 @@ def run():
     sim = Simulator(e, update_delay=0.5, display=True)  # create simulator (uses pygame when display=True, if available)
     # NOTE: To speed up simulation, reduce update_delay and/or set display=False
 
+    # Fine tuned parameters
+    a.alpha = 0.1
+    a.discount = 0.1
+    a.epsilon = 0.1
+
     sim.run(n_trials=100)  # run for a specified number of trials
     # NOTE: To quit midway, press Esc or close pygame window, or hit Ctrl+C on the command-line
 
@@ -149,5 +154,5 @@ def finetune():
     print "Final success rates: {}".format(result)
 
 if __name__ == '__main__':
-    #run()
-    finetune()
+    run()
+    #finetune()
