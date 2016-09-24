@@ -37,6 +37,10 @@ class LearningAgent(Agent):
         self.planner.route_to(destination)
         # TODO: Prepare for a new trip; reset any variables here, if required
 
+    def getQValue(self,state,action):
+        """ Returns Q value for particular (state, action) pair from QValueDict."""
+        return self.Q[state,action]
+
     def update(self, t):
         # Gather inputs
         self.next_waypoint = self.planner.next_waypoint()  # from route planner, also displayed by simulator
