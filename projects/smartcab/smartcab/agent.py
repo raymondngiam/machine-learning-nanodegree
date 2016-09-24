@@ -80,9 +80,12 @@ class LearningAgent(Agent):
         self.state = (inputs['light'], inputs['oncoming'],inputs['left'],self.next_waypoint)
         
         # TODO: Select action according to your policy
-        #actions =  [None,'forward','left','right']
-        #action = random.choice(actions)
-        action = self.computeActionFromQValues(self.state)
+        actions =  [None,'forward','left','right']
+        bolExplore = self.flipCoin(self.epsilon)
+        if (bolExplore):
+            action = random.choice(actions)
+        else:
+            action = self.computeActionFromQValues(self.state)
 
         # Execute action and get reward
         reward = self.env.act(self, action)
