@@ -32,6 +32,9 @@ class LearningAgent(Agent):
         self.planner = RoutePlanner(self.env, self)  # simple route planner to get next_waypoint
         # TODO: Initialize any additional variables here
         self.Q = QValueDict()
+        self.alpha=0.1
+        self.discount=0.1
+        self.epsilon=0.1
 
     def reset(self, destination=None):
         self.planner.route_to(destination)
@@ -72,7 +75,8 @@ class LearningAgent(Agent):
         nextState_inputs = self.env.sense(self)
         # Store as next state
         nextState = (nextState_inputs['light'], nextState_inputs['oncoming'],nextState_inputs['left'],nextState_next_waypoint)
-
+        # Update Q values 
+        self.Q[self.state,action] = (1-self.alpha)*self.Q[self.state,action] + self.alpha*(reward + self.discount*self.computeValueFromQValues(nextState))
 
         print "LearningAgent.update(): deadline = {}, inputs = {}, action = {}, reward = {}".format(deadline, inputs, action, reward)  # [debug]
 
