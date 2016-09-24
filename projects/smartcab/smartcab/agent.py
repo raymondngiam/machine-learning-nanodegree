@@ -118,6 +118,36 @@ def run():
     sim.run(n_trials=100)  # run for a specified number of trials
     # NOTE: To quit midway, press Esc or close pygame window, or hit Ctrl+C on the command-line
 
+def finetune():
+    """Fine tune the agent with parameter grid search."""
+
+    # Set up environment and agent
+    e = Environment()  # create environment (also adds some dummy traffic)
+    a = e.create_agent(LearningAgent)  # create agent
+    e.set_primary_agent(a, enforce_deadline=True)  # specify agent to track
+    # NOTE: You can set enforce_deadline=False while debugging to allow longer trials
+
+    # Now simulate it
+    sim = Simulator(e, update_delay=0.5, display=False)  # create simulator (uses pygame when display=True, if available)
+    # NOTE: To speed up simulation, reduce update_delay and/or set display=False
+
+    n = 100
+    alphas = [0.1,0.5,0.9]
+    discounts = [0.1,0.5,0.9]
+    epsilons = [0.1]
+    result = {}
+    for i in range(len(alphas)):
+        a.alpha = alphas[i]
+        for j in range(len(discounts)):
+            a.discount = discounts[j]
+            for k in range(len(epsilons)):
+                a.epsilon = epsilons[k]
+                sim.run(n_trials=n)  # run for a specified number of trials
+                result["{},{},{}".format(a.alpha,a.discount,a.epsilon)] = float(e.success)/n
+                e.success=0  # reset success counter in environment object
+    # NOTE: To quit midway, press Esc or close pygame window, or hit Ctrl+C on the command-line
+    print "Final success rates: {}".format(result)
 
 if __name__ == '__main__':
-    run()
+    #run()
+    finetune()
